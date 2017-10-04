@@ -17,7 +17,7 @@ int main(int argc, char * argv[])
     Sprite *mouse;
 	Sprite *enemy; //spawn bug
 
-    Vector4D mouseColor = {220,200,300,100}; //was 255,100,255,200
+    Vector4D mouseColor = {120,200,300,255}; //was 255,100,255,200
 	Entity tester;
     
     /*program initializtion*/
@@ -37,9 +37,9 @@ int main(int argc, char * argv[])
     SDL_ShowCursor(SDL_DISABLE);
     
     /*demo setup*/
-    sprite = gf2d_sprite_load_image("images/backgrounds/bg_flat.png");
+    sprite = gf2d_sprite_load_image("images/backgrounds/space_background_2_by_tonic_tf-d8doqs3.png");
     mouse = gf2d_sprite_load_all("images/pointer.png",32,32,16);
-	enemy = gf2d_sprite_load_all("images/space_bug.png", 100, 100, 16); //testing enemy
+	enemy = gf2d_sprite_load_all("images/ufoGreen.png", 100, 100, 16); //testing enemy
 
 	gf2d_entity_new(); //save space for new ent
 	tester.sprite = enemy;
@@ -56,9 +56,11 @@ int main(int argc, char * argv[])
         SDL_PumpEvents();   // update SDL's internal event structures
         keys = SDL_GetKeyboardState(NULL); // get the keyboard state for this frame
         /*update things here*/
+
         SDL_GetMouseState(&mx,&my);
         mf+=0.1;
         if (mf >= 16.0)mf = 0;
+
 			tester.frame += 0.1;
 			if (tester.frame >= 150) tester.frame = 0;
 
@@ -88,7 +90,7 @@ int main(int argc, char * argv[])
 				NULL,
 				NULL,
 				NULL,
-				tester.frame);
+				0);
 
         gf2d_grahics_next_frame();// render current draw frame and skip to the next frame   
         if (keys[SDL_SCANCODE_ESCAPE])done = 1; // exit condition

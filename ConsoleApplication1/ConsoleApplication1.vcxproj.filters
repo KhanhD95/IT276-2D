@@ -33,13 +33,13 @@
     <ClCompile Include="..\src\simple_logger.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ent.c">
+    <ClCompile Include="..\src\actor.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="actor.c">
+    <ClCompile Include="..\src\audio.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="audio.c">
+    <ClCompile Include="..\src\ent.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,6 +63,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="images\space_bug_top.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\backgrounds\space_background_2_by_tonic_tf-d8doqs3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\ufoGreen.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

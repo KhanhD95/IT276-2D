@@ -158,26 +158,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\actor.c" />
+    <ClCompile Include="..\src\audio.c" />
+    <ClCompile Include="..\src\ent.c" />
     <ClCompile Include="..\src\game.c" />
     <ClCompile Include="..\src\gf2d_draw.c" />
     <ClCompile Include="..\src\gf2d_graphics.c" />
     <ClCompile Include="..\src\gf2d_sprite.c" />
     <ClCompile Include="..\src\gf2d_vector.c" />
     <ClCompile Include="..\src\simple_logger.c" />
-    <ClCompile Include="actor.c" />
-    <ClCompile Include="audio.c" />
-    <ClCompile Include="ent.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\Makefile" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="images\backgrounds\space_background_2_by_tonic_tf-d8doqs3.png" />
     <Image Include="images\ed210.png" />
     <Image Include="images\ed210_top.png" />
     <Image Include="images\perlin-grey.png" />
     <Image Include="images\pointer.png" />
     <Image Include="images\space_bug.png" />
     <Image Include="images\space_bug_top.png" />
+    <Image Include="images\ufoGreen.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\ent.h" />
