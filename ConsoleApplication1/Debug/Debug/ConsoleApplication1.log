@@ -1,0 +1,15 @@
+﻿  game.c
+d:\njit\senior\first semester\it276\git\consoleapplication1\src\game.c(323): warning C4047: 'function': 'Entity *' differs in levels of indirection from 'Entity (*)[5]'
+d:\njit\senior\first semester\it276\git\consoleapplication1\src\game.c(323): warning C4024: 'collide': different types for formal and actual parameter 1
+d:\njit\senior\first semester\it276\git\consoleapplication1\src\game.c(331): warning C4047: 'function': 'Entity *' differs in levels of indirection from 'Entity (*)[5]'
+d:\njit\senior\first semester\it276\git\consoleapplication1\src\game.c(331): warning C4024: 'collide': different types for formal and actual parameter 1
+d:\njit\senior\first semester\it276\git\consoleapplication1\src\game.c(338): warning C4047: 'function': 'Entity *' differs in levels of indirection from 'Entity (*)[5]'
+d:\njit\senior\first semester\it276\git\consoleapplication1\src\game.c(338): warning C4024: 'collide': different types for formal and actual parameter 1
+d:\njit\senior\first semester\it276\git\consoleapplication1\src\game.c(345): warning C4047: 'function': 'Entity *' differs in levels of indirection from 'Entity (*)[5]'
+d:\njit\senior\first semester\it276\git\consoleapplication1\src\game.c(345): warning C4024: 'collide': different types for formal and actual parameter 1
+d:\njit\senior\first semester\it276\git\consoleapplication1\src\game.c(352): warning C4047: 'function': 'Entity *' differs in levels of indirection from 'Entity (*)[5]'
+d:\njit\senior\first semester\it276\git\consoleapplication1\src\game.c(352): warning C4024: 'collide': different types for formal and actual parameter 1
+d:\njit\senior\first semester\it276\git\consoleapplication1\src\game.c(360): warning C4047: 'function': 'Entity *' differs in levels of indirection from 'Entity (*)[5]'
+d:\njit\senior\first semester\it276\git\consoleapplication1\src\game.c(360): warning C4024: 'collide': different types for formal and actual parameter 1
+  ConsoleApplication1.vcxproj -> D:\NJIT\Senior\First Semester\IT276\Git\ConsoleApplication1\ConsoleApplication1\\ConsoleApplication1.exe
+  ConsoleApplication1.vcxproj -> D:\NJIT\Senior\First Semester\IT276\Git\ConsoleApplication1\ConsoleApplication1\\ConsoleApplication1.pdb (Full PDB)
