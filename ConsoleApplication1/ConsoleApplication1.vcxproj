@@ -93,8 +93,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>
-      </PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>
       </SDLCheck>
     </ClCompile>
@@ -127,8 +126,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>
-      </PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>
       </SDLCheck>
     </ClCompile>
@@ -160,32 +158,60 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\gf2d_draw.h" />
-    <ClInclude Include="..\include\gf2d_graphics.h" />
-    <ClInclude Include="..\include\gf2d_sprite.h" />
-    <ClInclude Include="..\include\gf2d_text.h" />
-    <ClInclude Include="..\include\gf2d_types.h" />
-    <ClInclude Include="..\include\gf2d_vector.h" />
-    <ClInclude Include="..\include\simple_logger.h" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="..\src\actor.c" />
+    <ClCompile Include="..\src\audio.c" />
+    <ClCompile Include="..\src\ent.c" />
     <ClCompile Include="..\src\game.c" />
     <ClCompile Include="..\src\gf2d_draw.c" />
     <ClCompile Include="..\src\gf2d_graphics.c" />
     <ClCompile Include="..\src\gf2d_sprite.c" />
     <ClCompile Include="..\src\gf2d_vector.c" />
     <ClCompile Include="..\src\simple_logger.c" />
+    <ClCompile Include="enemy.c" />
+    <ClCompile Include="laser.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\Makefile" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="images\backgrounds\Mainmenu.png" />
+    <Image Include="images\backgrounds\space_background_2_by_tonic_tf-d8doqs3.png" />
+    <Image Include="images\bolt_gold.png" />
     <Image Include="images\ed210.png" />
     <Image Include="images\ed210_top.png" />
+    <Image Include="images\enemyBlue4.png" />
+    <Image Include="images\enemyRed4.png" />
+    <Image Include="images\laserRed12.png" />
     <Image Include="images\perlin-grey.png" />
+    <Image Include="images\playerShip3_blue.png" />
+    <Image Include="images\playerShip3_orange.png" />
     <Image Include="images\pointer.png" />
     <Image Include="images\space_bug.png" />
     <Image Include="images\space_bug_top.png" />
+    <Image Include="images\ufoBlue.png" />
+    <Image Include="images\ufoGreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\ent.h" />
+    <ClInclude Include="..\include\gf2d_actor.h" />
+    <ClInclude Include="..\include\gf2d_audio.h" />
+    <ClInclude Include="..\include\gf2d_collision.h" />
+    <ClInclude Include="..\include\gf2d_color.h" />
+    <ClInclude Include="..\include\gf2d_draw.h" />
+    <ClInclude Include="..\include\gf2d_graphics.h" />
+    <ClInclude Include="..\include\gf2d_list.h" />
+    <ClInclude Include="..\include\gf2d_particles.h" />
+    <ClInclude Include="..\include\gf2d_shape.h" />
+    <ClInclude Include="..\include\gf2d_sprite.h" />
+    <ClInclude Include="..\include\gf2d_text.h" />
+    <ClInclude Include="..\include\gf2d_types.h" />
+    <ClInclude Include="..\include\gf2d_vector.h" />
+    <ClInclude Include="..\include\simple_logger.h" />
+    <ClInclude Include="laser.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="sounds\blaster.wav" />
+    <Media Include="sounds\Kaivon - Reborn.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
