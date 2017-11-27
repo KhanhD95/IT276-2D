@@ -107,7 +107,7 @@ void gf2d_entity_draw(Entity *self)
 	self->box.h = self->sprite->frame_h;
 	Vector4D rectColor = { 255, 100, 255, 200 };
 
-	gf2d_draw_rect(self->box, rectColor);
+	//gf2d_draw_rect(self->box, rectColor);
 
 
 	/*if (self->draw != NULL)
@@ -213,7 +213,7 @@ Bool collide(Entity *self, Entity *targ)
 	if (self->box.x + self->box.w < targ->box.x || self->box.x > targ->box.x + targ->box.w ||
 		self->box.y + self->box.h < targ->box.y || self->box.y > targ->box.y + targ->box.h)
 
-		
+			
 		/*self->box.x < targ->box.x + targ->box.w && self->box.x + self->box.w > targ->box.x &&
 		self->box.y < targ->box.y + targ->box.h && self->box.y + self->box.h > targ->box.y*/
 
@@ -224,7 +224,23 @@ Bool collide(Entity *self, Entity *targ)
 
 }
 
+/*detection think*/
+Bool detection(Entity *self, Entity *targ)
+{
+	if (!self->inuse) return false;
+	
+	//angle = atan2(player.y - enemy.y, player.x - enemy.x)
+	//(range)^2 >= (x2-x1)^2 + (y2-y1)^2
 
+	
+	float deltaX = self->position.x - targ->position.x;
+	float deltaY = self->position.y - targ->position.y;
+
+	//float angle = atan2f(deltaY, deltaX);
+	//enemySprite.rotation = 90.0f - CC_RADIANS_TO_DEGREES(angle);
+
+
+}
 
 /*int gf2d_entity_deal_damage(Entity *target, Entity *inflictor, Entity *attacker, int damage, Vector2D kick)
 {

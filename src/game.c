@@ -6,18 +6,21 @@
 #include "gf2d_audio.h"
 
 
-
 int main(int argc, char * argv[])
 {
 	/*variable declarations*/
 	int done = 0;
 	int start = 0;
+	int pause = 0;
+	Bool gameIsPaused;
 	const Uint8 * keys = NULL;
+	const Uint8 * pauseKeys = NULL;
 	
 
 	int mx =0, my = 0;
 	int count = 0;
 	float mf = 0;
+	float frame = 0;
 	int timer = 0;
 	Uint8 mousestate;
 
@@ -31,9 +34,11 @@ int main(int argc, char * argv[])
 	Sprite *orangeTri; // spawn orange tri enemy 
 	Sprite *blueHex; // spawn blue hexagon enemy 
 	Sprite *menu; // load menu 
+	Sprite *pauseMenu; //load pause menu
 	Sprite *speedBoost; // shooting power up
 	Sprite *playerS; // testing player
 	Sprite *blueLaser; //testing enemy laser
+	Sprite *boss; // testing animated boss
 
 	Vector4D mouseColor = { 120,200,300,255 }; //was 255,100,255,200
 
@@ -47,12 +52,14 @@ int main(int argc, char * argv[])
 	Entity sBoost; // shooting boost var 
 	Entity player; // testing player var
 	Entity blaser[5];// enemy laser
+	Entity *bossSpaceship; //boss var
 
 	SDL_Event event1; // event type
 
 	Mix_Music *music; //music var
 	Mix_Chunk *blaster; //blaster sound
 	Mix_Chunk *sPower; // shooting power up sound
+	Mix_Chunk *xPlosive; //explosions
 
 	/*program initializtion*/
 	init_logger("gf2d.log");
@@ -68,7 +75,7 @@ int main(int argc, char * argv[])
 	gf2d_graphics_set_frame_delay(16);
 	gf2d_audio_init(256, 16, 4, 1, 1, 1);
 	gf2d_sprite_init(1024);
-	gf2d_entity_system_init(200); // add 200 max entities
+	gf2d_entity_system_init(300); // add 300 max entities
 	SDL_ShowCursor(SDL_DISABLE);
 
 	/*game setup*/
@@ -76,11 +83,12 @@ int main(int argc, char * argv[])
 	/*background,player,projectile, power ups*/
 	sprite = gf2d_sprite_load_image("images/backgrounds/space_background_2_by_tonic_tf-d8doqs3.png");
 	menu = gf2d_sprite_load_image("images/backgrounds/Mainmenu.png");// testing menu
+	pauseMenu = gf2d_sprite_load_image("images/backgrounds/pausemenu.png");//testing pause menu
 	mouse = gf2d_sprite_load_all("images/pointer.png", 32, 32, 16);
 	laser = gf2d_sprite_load_all("images/laserRed12.png", 13, 57, 16); // testing laser
 	speedBoost = gf2d_sprite_load_all("images/bolt_gold.png",32,32,16); //testing speed boost
 	blueLaser = gf2d_sprite_load_all("images/laserBlue10.png",13,57,16);// testing blue laser
-	
+
 	
 	/*Player & Enemies*/
 	playerS = gf2d_sprite_load_all("images/playerShip1_green.png",100,100,16); //testing player
@@ -90,19 +98,21 @@ int main(int argc, char * argv[])
 	blueCir = gf2d_sprite_load_all("images/ufoBlue.png", 100, 100, 16);// blue circle
 	orangeTri = gf2d_sprite_load_all("images/playerShip3_orange.png", 100, 100, 16); // orange triangle
 	blueHex = gf2d_sprite_load_all("images/enemyBlue4.png", 100, 100, 16);// blue hex 
+	boss = gf2d_sprite_load_all("images/bossSpaceship.png", 100, 100, 4); //testing boss 
 
 
 	/*Audio*/
 	music = Mix_LoadMUS("sounds/Kaivon - Reborn.wav"); //testing theme music
 	blaster = Mix_LoadWAV("sounds/blaster.wav"); //testing blaster sound
 	sPower = Mix_LoadWAV("sounds/Metroid_Door-Brandino480-995195341.wav"); // testing power up sound
+	xPlosive = Mix_LoadWAV("sounds/explosion_large_08.wav"); //testing explosive sound
 	Mix_PlayMusic(music, -1);
 
 	//Circle enemy
 	gf2d_entity_new(); //save space for new ent
 	tester.sprite = enemy;
 	tester.inuse = 1;
-	tester.position = vector2d(300, 300);
+	tester.position = vector2d(100, 0.25);
 	tester.frame = 0; // initialize frame var
 	tester.scale = vector2d(0.5, 0.5);
 	tester.scaleCenter = vector2d(0, 0);
@@ -111,7 +121,7 @@ int main(int argc, char * argv[])
 	gf2d_entity_new(); //save space for new ent
 	circle.sprite = blueCir;
 	circle.inuse = 1;
-	circle.position = vector2d(1000, 100);
+	circle.position = vector2d(1000, 0.25);
 	circle.frame = 0; // initialize frame var
 	circle.scale = vector2d(0.5, 0.5);
 	circle.scaleCenter = vector2d(0, 0);
@@ -120,16 +130,17 @@ int main(int argc, char * argv[])
 	gf2d_entity_new();
 	tri.sprite = enemyTri;
 	tri.inuse = 1;
-	tri.position = vector2d(300, 200);
+	tri.position = vector2d(300, 0.25);
 	tri.frame = 0;
 	tri.scale = vector2d(0.5, 0.5);
 	tri.scaleCenter = vector2d(0, 0);
+	
 
 	//Triangle enemy #2
 	gf2d_entity_new();
 	oTri.sprite = orangeTri;
 	oTri.inuse = 1;
-	oTri.position = vector2d(700, 200);
+	oTri.position = vector2d(700, 1);
 	oTri.frame = 0;
 	oTri.scale = vector2d(0.5, 0.5);
 	oTri.scaleCenter = vector2d(0, 0);
@@ -139,7 +150,7 @@ int main(int argc, char * argv[])
 	gf2d_entity_new();
 	hex.sprite = enemyHex;
 	hex.inuse = 1;
-	hex.position = vector2d(300, 100);
+	hex.position = vector2d(500, 0.25);
 	hex.frame = 0;
 	hex.scale = vector2d(0.5, 0.5);
 	hex.scaleCenter = vector2d(0, 0);
@@ -148,7 +159,7 @@ int main(int argc, char * argv[])
 	gf2d_entity_new();
 	bHex.sprite = blueHex;
 	bHex.inuse = 1;
-	bHex.position = vector2d(800, 300);
+	bHex.position = vector2d(800, 0.25);
 	bHex.frame = 0;
 	bHex.scale = vector2d(0.5, 0.5);
 	bHex.scaleCenter = vector2d(0, 0);
@@ -169,12 +180,12 @@ int main(int argc, char * argv[])
 	gf2d_entity_new();
 	for (int i = 0; i < 5; i++) 
 	{
-		slaser[i].sprite = laser;
-		slaser[i].inuse = 1;
-		slaser[i].position = vector2d(0, 0);
-		slaser[i].frame = 0.1;
-		slaser[i].scale = vector2d(0.5, 0.5);
-		slaser[i].scaleCenter = vector2d(1, 1);
+		blaser[i].sprite = laser;
+		blaser[i].inuse = 1;
+		blaser[i].position = vector2d(0, 0);
+		blaser[i].frame = 0.1;
+		blaser[i].scale = vector2d(0.5, 0.5);
+		blaser[i].scaleCenter = vector2d(1, 1);
 	}
 
 	//testing shooting boost
@@ -216,6 +227,27 @@ int main(int argc, char * argv[])
 
 	}
 
+	while (!pause)
+	{
+		SDL_PumpEvents();
+		gf2d_graphics_clear_screen();
+		gf2d_sprite_draw_image(pauseMenu, vector2d(0, 0));
+
+		pauseKeys = SDL_GetKeyboardState(NULL);
+
+		if (pauseKeys[SDL_SCANCODE_P])
+		{
+			pause = 1;
+			continue;
+		}
+		else 
+			break;
+
+		gf2d_grahics_next_frame();
+
+	}
+
+
 	/*main game loop*/
 	while (!done)
 	{
@@ -225,6 +257,7 @@ int main(int argc, char * argv[])
 		//SDL_PollEvent(&event1);
 
 		keys = SDL_GetKeyboardState(NULL); // get the keyboard state for this frame
+		pauseKeys = SDL_GetKeyboardState(NULL); // get the pause key state for this frame
 		/*update things here*/
 
 		//player mouse
@@ -271,7 +304,7 @@ int main(int argc, char * argv[])
 
 		// shoot laser using array and timer method
 
-		if ((SDL_BUTTON(SDL_BUTTON_LEFT)&mousestate) && timer >= 50) // change fire rate
+		if ((SDL_BUTTON(SDL_BUTTON_LEFT)&mousestate) && timer >= 25) // change fire rate
 		{
 			slaser[count].position = vector2d(mx+ 20 , my + 15);
 			count++;
@@ -310,38 +343,33 @@ int main(int argc, char * argv[])
 		gf2d_entity_draw(&sBoost);
 
 		//testing enemy circle y velocity
-		tester.position.y -= 0.1;
+		tester.position.y += 0.1;
 		gf2d_entity_draw(&tester);
 		
-
+		
 		//testing blue circle y velocity
 		circle.position.y += 0.1;
 		gf2d_entity_draw(&circle);
 		
-		//testing enemy triangle x velocity 
-		tri.position.x -= 0.1;
+		//testing enemy triangle y velocity 
+		tri.rotation = vector3d(0, 0, 180);
+		tri.position.y += 0.1;
 		gf2d_entity_draw(&tri);
 		
-		//testing orange triangle x velocity
-		oTri.position.x += 0.1;
+		//testing orange triangle y velocity
+		oTri.position.y += 0.1;
 		gf2d_entity_draw(&oTri);
 		
 
 		//testing enemy hexagon x+y velocity
-		hex.position.x -= 0.1;
+		hex.position.x += 0.1;
 		hex.position.y += 0.1;
-		int i = 0;
-		if (slaser[i].position.x != 0 && slaser[i].position.y != 0)
-		{
-			slaser[i].position.y -= 5; // testing speed of laser 
-			gf2d_entity_draw(&slaser[i]);
-		}
 		gf2d_entity_draw(&hex);
 		
 
 		//testing blue hexagon x+y velocity 
-		bHex.position.x += 0.1;
-		bHex.position.y -= 0.1;
+		bHex.position.x -= 0.1;
+		bHex.position.y += 0.1;
 		gf2d_entity_draw(&bHex);
 		
 
@@ -366,6 +394,14 @@ int main(int argc, char * argv[])
 				//gf2d_entity_free(speedBoost);
 
 
+			}
+
+			//destroy player by blue circle
+			if (collide(&player, &circle) == true)
+			{
+				Mix_PlayChannel(-1, xPlosive, 0);
+				gf2d_sprite_delete(playerS);
+				gf2d_sprite_free(playerS);
 			}
 
 
@@ -412,12 +448,98 @@ int main(int argc, char * argv[])
 				gf2d_sprite_delete(blueHex);
 				gf2d_sprite_free(blueHex);
 			}
+			
+			//testing detection
+			if (detection(&player, &tri) == true)
+			{
+				tri.position.y += 1;
+			}
+			
 
 		}
-		gf2d_grahics_next_frame();// render current draw frame and skip to the next frame   
+
+		/*Detection system
+		for (int i = 0; i < 5; i++)
+		{
+			if (detection(&player, &hex) == true)
+			{
+				if ((SDL_BUTTON(SDL_BUTTON_LEFT)&mousestate) && timer >= 50) // change fire rate
+				{
+					blaser[count].position = vector2d(mx + 20, my + 15);
+					count++;
+					if (count > 4)
+					{
+						count = 0;
+					}
+
+					Mix_PlayChannel(-1, blaster, 0);
+					timer = 0;
+
+				}
+
+				for (int i = 0; i < 5; i++)// check last laser position
+				{
+					if (blaser[i].position.x != 0 && blaser[i].position.y != 0) {
+						blaser[i].position.y -= 5; // testing speed of laser 
+						gf2d_entity_draw(&blaser[i]);
+					}
+				}
+			}
+		
+		}*/
+
+
+
+		/*void patrol(Entity* entity)
+		{
+			entity->velocity.x = 3.0*entity->forward;
+			entity->position.x += entity->velocity.x;
+		
+		}
+		void fire(Entity* entity)
+		{
+			if (SDL_GetTicks() - entity->fireTime >= 700)
+			{
+				entity->fireTime = SDL_GetTicks();
+
+				fire_projectile(entity, 7);
+			}
+		
+		}*/
+		
+		//testing boss
+		frame += 0.01;
+		if (frame >= 4.0)frame = 0;
+		gf2d_sprite_draw(
+			boss,
+			vector2d(500,100),
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			NULL,
+			(int)frame);
+		
+
+		gf2d_grahics_next_frame();// render current draw frame and skip to the next frame
+		
+
 		if (keys[SDL_SCANCODE_ESCAPE])done = 1; // exit condition
 		//slog("Rendering at %f FPS", gf2d_graphics_get_frames_per_second());
 	}
+
+	/*Pause menu*/
+	//if (pauseKeys[SDL_SCANCODE_P])pause = 1;
+	//continue;
+
+	/*if (keys[SDL_SCANCODE_P]) gameIsPaused == true)
+	{
+	// run updates
+	pause = 1;
+	}
+	continue;*/
+
+	
 
 	//Mix_HaltMusic(blaster);
 	//Mix_FreeMusic(blaster);
