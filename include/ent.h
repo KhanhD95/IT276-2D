@@ -49,8 +49,13 @@ typedef struct Entity_S
 	Sprite *sprite;							//sprite variable
 	float frame;
 	
-	float deltaX;
-	float deltaY;
+	float dx;
+	float dy;
+	float length;
+	float currentTime;
+	float lastTime;
+	float deltaTime;
+	float speed;
 	
 
 
