@@ -229,17 +229,29 @@ Bool detection(Entity *self, Entity *targ)
 {
 	if (!self->inuse) return false;
 	
-	//angle = atan2(player.y - enemy.y, player.x - enemy.x)
-	//(range)^2 >= (x2-x1)^2 + (y2-y1)^2
-
+	float dx = self->position.x - targ->position.x;
+	float dy = self->position.y - targ->position.y;
+	float length = sqrt(dx * dx + dy * dy);
+	//float currentTime = 0;
+	//float lastTime = 0;
+	//float dirx = 0;
+	//float diry = 0;
+	//float speed = 0.1;
 	
-	float deltaX = self->position.x - targ->position.x;
-	float deltaY = self->position.y - targ->position.y;
+	//float deltaTime = currentTime - lastTime;
+	//deltaTime++;
+	dx /= length; dy /= length; // normalize (make it 1 unit length)
+	dx *= 1; dy *= 1; // scale to our desired speed
 
-	//float angle = atan2f(deltaY, deltaX);
-	//enemySprite.rotation = 90.0f - CC_RADIANS_TO_DEGREES(angle);
+	if (length <= 150)
+	{
+		//targ->position.x += dirx * speed * deltaTime;
+		//targ->position.y += diry * speed * deltaTime;
 
-
+		targ->position.x += dx;
+		targ->position.y += dy;
+	}
+	
 }
 
 /*int gf2d_entity_deal_damage(Entity *target, Entity *inflictor, Entity *attacker, int damage, Vector2D kick)
