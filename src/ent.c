@@ -3,6 +3,7 @@
 #include "simple_logger.h"
 #include "gf2d_graphics.h"
 #include "gf2d_sprite.h"
+#include "SDL_ttf.h"
 
 
 typedef struct
@@ -224,7 +225,7 @@ Bool collide(Entity *self, Entity *targ)
 
 }
 
-/*detection think*/
+/*detection follow*/
 Bool detection(Entity *self, Entity *targ)
 {
 	if (!self->inuse) return false;
@@ -241,9 +242,9 @@ Bool detection(Entity *self, Entity *targ)
 	//float deltaTime = currentTime - lastTime;
 	//deltaTime++;
 	dx /= length; dy /= length; // normalize (make it 1 unit length)
-	dx *= 1; dy *= 1; // scale to our desired speed
+	dx *= 0.2; dy *= 0.2; // scale to our desired speed
 
-	if (length <= 150)
+	if (length <= 250)
 	{
 		//targ->position.x += dirx * speed * deltaTime;
 		//targ->position.y += diry * speed * deltaTime;
@@ -253,6 +254,87 @@ Bool detection(Entity *self, Entity *targ)
 	}
 	
 }
+
+/*detection think*/
+Bool think(Entity *self, Entity *targ)
+{
+	
+		if (!self->inuse) return false;
+
+		float dx = self->position.x - targ->position.x;
+		float dy = self->position.y - targ->position.y;
+		float length = sqrt(dx * dx + dy * dy);
+		
+		
+		dx /= length; dy /= length; // normalize (make it 1 unit length)
+
+		if (length <= 200) 
+		{
+			targ->position.x;
+			targ->position.y;
+		
+		}
+		
+	
+	
+}
+/*
+
+Render a Horizontal Percentage Bar
+Drains left to right normally, if width is negative it will drain right to left.
+Percent is clamped 0.0f - 1.0f
+
+*/
+
+/*void RenderHPBar(int x, int y, int w, int h, float Percent, SDL_Color FGColor, SDL_Color BGColor) 
+{
+	SDL_Renderer * Renderer;
+	Percent = Percent > 1.f ? 1.f : Percent < 0.f ? 0.f : Percent;
+	SDL_Color old;
+	SDL_GetRenderDrawColor(Renderer, &old.r, &old.g, &old.g, &old.a);
+	SDL_Rect bgrect = { x, y, w, h };
+	SDL_SetRenderDrawColor(Renderer, BGColor.r, BGColor.g, BGColor.b, BGColor.a);
+	SDL_RenderFillRect(Renderer, &bgrect);
+	SDL_SetRenderDrawColor(Renderer, FGColor.r, FGColor.g, FGColor.b, FGColor.a);
+	int pw = (int)((float)w * Percent);
+	int px = x + (w - pw);
+	SDL_Rect fgrect = { px, y, pw, h };
+	SDL_RenderFillRect(Renderer, &fgrect);
+	SDL_SetRenderDrawColor(Renderer, old.r, old.g, old.b, old.a);
+}*/
+/*void putpixel(SDL_Surface* screen, int x, int y)
+{
+	Uint32 *pixel = (Uint32*)screen->pixels;
+	Uint32* p = pixel + y*screen->pitch / 4 + x;
+	*p = SDL_MapRGB(screen->format, 0xff, 0xaa, 0x00);
+}*/
+
+
+/*void DrawBar(SDL_Surface* screen, int xpos, int xposmax, int ypos, int yposmax, int value, int width, int hieght, SDL_Rect* box, SDL_Rect* bgbox, Uint32 color)
+{
+	box->x = xpos;
+	box->y = ypos;
+	box->w = width;
+	box->h = hieght;
+
+	bgbox->x = xpos - 3;
+	bgbox->y = ypos - 99;
+	bgbox->w = width + 11;
+	bgbox->h = hieght;
+
+	SDL_FillRect(screen, bgbox, color);
+	for (int i = ypos; i >= (yposmax - value); i--)
+	{
+		for (int j = xpos; j < xposmax; j++)
+		{
+			putpixel(screen, j, i);
+		}
+
+	}
+}*/
+
+
+
 
 /*int gf2d_entity_deal_damage(Entity *target, Entity *inflictor, Entity *attacker, int damage, Vector2D kick)
 {
