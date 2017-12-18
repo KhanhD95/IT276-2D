@@ -47,6 +47,8 @@ typedef struct Entity_S
 	Vector3D rotation;                      /**<how to rotate the sprite*/
 	Vector2D flip;                          /**<if to flip the sprite*/
 	Sprite *sprite;							//sprite variable
+	SDL_Rect *textRect;                    //textBox
+	
 	float frame;
 	
 	float dx;
@@ -56,9 +58,18 @@ typedef struct Entity_S
 	float lastTime;
 	float deltaTime;
 	float speed;
+
+	int enemyTimer;
+
+	
+	
 	
 
 
+
+
+
+	
 
 //	ParticleEmitter *pe;                    /**<if this entity has its own particle emitter*/
 
@@ -137,6 +148,11 @@ void gf2d_entity_post_sync_all();
 // call collision
 Bool collide(Entity *self, Entity *target);
 
+Bool think(Entity *self, Entity *targ);
+
+//void putpixel(SDL_Surface* screen, int x, int y);
+
+//void DrawBar(SDL_Surface* screen, int xpos, int xposmax, int ypos, int yposmax, int value, int width, int hieght, SDL_Rect* box, SDL_Rect* bgbox, Uint32 color);
 
 /**
 * @brief deal damage to target entity
